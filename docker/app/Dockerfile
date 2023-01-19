@@ -1,11 +1,11 @@
-FROM hexpm/elixir:1.14.0-erlang-25.0.4-debian-bullseye-20220801-slim
+FROM hexpm/elixir:1.14.3-erlang-25.2.1-debian-bullseye-20230109-slim
 # Install basic dependencies see https://medium.com/@ricardo.trindade743/setting-up-phoenix-postgresql-with-docker-compose-for-local-development-afeb4a4ace6c
 RUN apt-get update -qq && \
   apt-get -y --allow-unauthenticated install\
   build-essential\
   curl\
   libpq-dev\
-  #      postgresql-client\
+  postgresql-client\
   git\
   make\
   erlang-crypto\
@@ -17,7 +17,7 @@ WORKDIR /app
 
 RUN mix local.hex --force \
   && mix local.rebar --force \
-  #    && mix archive.install hex phx_new --force \
+  && mix archive.install hex phx_new 1.7.0-rc.2 --force \
   && echo
 
 COPY run.sh /

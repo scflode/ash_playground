@@ -6,47 +6,47 @@ services:
     tty: true
     volumes:
       - app:/app
-        #    environment:
-        #      - DATABASE_URL=postgres://postgres@db:5432/template_dev
-        #      - DATABASE_TEST_URL=postgres://postgres@db:5432/template_test
-        #    depends_on:
-        #      - db
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/playground_dev
+      - DATABASE_TEST_URL=postgres://postgres@db:5432/playground_test
+    depends_on:
+      - db
     ports:
       - 4000:4000
     command: '/run.sh'
     networks:
       - default
 
-#  db:
-#    image: postgres:14.5-alpine
-#    command: 'postgres -c "max_connections=200"'
-#    ports:
-#      - 5432:5432
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: postgres
-#    volumes:
-#      - type: volume
-#        source: postgres-data
-#        target: /var/lib/postgresql/data
-#        volume:
-#          nocopy: true
-#    networks:
-#      - default
+  db:
+    image: postgres:14.5-alpine
+    command: 'postgres -c "max_connections=200"'
+    ports:
+      - 15433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: true
+    networks:
+      - default
 
-#  # Standalone container for npm handling
-#  assets:
-#    build:
-#      context: .
-#      dockerfile: docker/assets/Dockerfile
-#    working_dir: /app/assets
-#    volumes:
-#      - app:/app
-#    profiles:
-#      - tools
+  # Standalone container for npm handling
+  assets:
+    build:
+      context: .
+      dockerfile: docker/assets/Dockerfile
+    working_dir: /app/assets
+    volumes:
+      - app:/app
+    profiles:
+      - tools
 
 volumes:
-  #  postgres-data:
+  postgres-data:
   app:
 
 # Define synchronization and forwarding sessions
