@@ -29,6 +29,9 @@ config :playground, PlaygroundWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
+config :playground,
+  token_signing_secret: "v9Yz1a+nUgNnThNThAsX8w/YbzNrC8tyz+efDc+3muWfx9EAyPsQDYYHkqNbsnBb"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

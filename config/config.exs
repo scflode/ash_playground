@@ -8,7 +8,7 @@
 import Config
 
 config :playground,
-  ash_apis: [Playground.Support]
+  ash_apis: [Playground.Support, Playground.Accounts]
 
 config :playground,
   ecto_repos: [Playground.Repo],

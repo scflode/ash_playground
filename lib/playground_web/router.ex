@@ -1,5 +1,6 @@
 defmodule PlaygroundWeb.Router do
   use PlaygroundWeb, :router
+  use AshAuthentication.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,14 +9,21 @@ defmodule PlaygroundWeb.Router do
     plug :put_root_layout, {PlaygroundWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :load_from_session
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :load_from_bearer
   end
 
   scope "/", PlaygroundWeb do
     pipe_through :browser
+
+    sign_in_route path: "/login"
+    sign_out_route AuthController, "/logout"
+    auth_routes_for Playground.Accounts.User, to: AuthController, path: "/auth"
+    reset_route()
 
     get "/", PageController, :home
   end
