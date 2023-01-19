@@ -8,6 +8,9 @@
 import Config
 
 config :playground,
+  ash_apis: [Playground.Support]
+
+config :playground,
   ecto_repos: [Playground.Repo],
   generators: [binary_id: true]
 
