@@ -47,4 +47,19 @@ defmodule Playground.Support.Ticket do
   relationships do
     belongs_to :representative, Playground.Support.Representative
   end
+
+  calculations do
+    calculate :subject_and_status, :string, expr(subject <> ^arg(:separator) <> status) do
+      argument :separator, :string do
+        allow_nil? false
+        default " "
+      end
+    end
+  end
+
+  code_interface do
+    define_for Playground.Support
+    define :open, args: [:subject]
+    define_calculation :subject_and_status, args: [:subject, :status, {:optional, :separator}]
+  end
 end
