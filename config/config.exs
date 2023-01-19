@@ -30,6 +30,9 @@ config :playground, PlaygroundWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :playground, Playground.Mailer, adapter: Swoosh.Adapters.Local
 
+# Ash framework config
+config :ash, :use_all_identities_in_manage_relationship?, false
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.41",
