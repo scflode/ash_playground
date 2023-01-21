@@ -3,10 +3,20 @@ defmodule Playground.Accounts.User do
     data_layer: AshPostgres.DataLayer,
     extensions: [AshAuthentication]
 
+  actions do
+    read :read do
+      primary? true
+    end
+  end
+
   attributes do
     uuid_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
     attribute :hashed_password, :string, allow_nil?: false, sensitive?: true
+  end
+
+  identities do
+    identity :unique_email, [:email], eager_check_with: Playground.Accounts
   end
 
   authentication do
@@ -15,6 +25,13 @@ defmodule Playground.Accounts.User do
     strategies do
       password :password do
         identity_field :email
+      end
+    end
+
+    add_ons do
+      confirmation :confirm do
+        monitor_fields [:email]
+        sender Playground.Accounts.ConfirmationSender
       end
     end
 
@@ -33,9 +50,5 @@ defmodule Playground.Accounts.User do
   postgres do
     table "users"
     repo Playground.Repo
-  end
-
-  identities do
-    identity :unique_email, [:email]
   end
 end
