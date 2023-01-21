@@ -2,6 +2,7 @@ defmodule PlaygroundWeb.AuthController do
   use PlaygroundWeb, :controller
   use AshAuthentication.Phoenix.Controller
 
+  @impl true
   def success(conn, _activity, user, _token) do
     return_to = get_session(conn, :return_to) || ~p"/"
 
@@ -12,6 +13,7 @@ defmodule PlaygroundWeb.AuthController do
     |> redirect(to: return_to)
   end
 
+  @impl true
   def failure(conn, _activity, reason) do
     conn
     |> put_status(401)
@@ -19,6 +21,7 @@ defmodule PlaygroundWeb.AuthController do
     |> render("failure.html")
   end
 
+  @impl true
   def sign_out(conn, _params) do
     return_to = get_session(conn, :return_to) || ~p"/login"
 
