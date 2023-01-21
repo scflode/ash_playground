@@ -20,6 +20,8 @@ defmodule Playground.Accounts.User do
 
     tokens do
       enabled? true
+      store_all_tokens? true
+      require_token_presence_for_authentication? true
       token_resource Playground.Accounts.Token
 
       signing_secret fn _, _ ->
