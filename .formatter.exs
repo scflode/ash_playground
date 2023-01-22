@@ -6,7 +6,8 @@
     :ash,
     :ash_postgres,
     :ash_authentication,
-    :ash_authentication_phoenix
+    :ash_authentication_phoenix,
+    :ash_admin
   ],
   subdirectories: ["priv/*/migrations"],
   plugins: [Phoenix.LiveView.HTMLFormatter],
