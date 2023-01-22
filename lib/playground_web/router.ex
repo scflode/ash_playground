@@ -1,23 +1,39 @@
 defmodule PlaygroundWeb.Router do
   use PlaygroundWeb, :router
+  use AshAuthentication.Phoenix.Router
+
+  import AshAdmin.Router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {PlaygroundWeb.Layouts, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {PlaygroundWeb.Layouts, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
+    plug(:load_from_session)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
+    plug(:load_from_bearer)
   end
 
   scope "/", PlaygroundWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    get "/", PageController, :home
+    sign_in_route(path: "/login")
+    sign_out_route(AuthController, "/logout")
+    auth_routes_for(Playground.Accounts.User, to: AuthController, path: "/auth")
+    reset_route()
+
+    get("/", PageController, :home)
+  end
+
+  scope "/" do
+    pipe_through(:browser)
+
+    ash_admin("/admin")
   end
 
   # Other scopes may use custom stacks.
@@ -35,10 +51,10 @@ defmodule PlaygroundWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: PlaygroundWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      live_dashboard("/dashboard", metrics: PlaygroundWeb.Telemetry)
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 end

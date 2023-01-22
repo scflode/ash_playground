@@ -53,7 +53,11 @@ defmodule Playground.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ash, "~> 2.5.6"},
       {:elixir_sense, github: "elixir-lsp/elixir_sense", only: [:dev, :test]},
-      {:ash_phoenix, "~> 1.2.4"}
+      {:ash_phoenix, "~> 1.2.4"},
+      {:ash_postgres, "~> 1.3.2"},
+      {:ash_authentication, "~> 3.7.3"},
+      {:ash_authentication_phoenix, "~> 1.4"},
+      {:ash_admin, github: "ash-project/ash_admin", branch: "phoenix-1.7"}
     ]
   end
 

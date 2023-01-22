@@ -17,9 +17,8 @@ defmodule Playground.Application do
       # Start Finch
       {Finch, name: Playground.Finch},
       # Start the Endpoint (http/https)
-      PlaygroundWeb.Endpoint
-      # Start a worker by calling: Playground.Worker.start_link(arg)
-      # {Playground.Worker, arg}
+      PlaygroundWeb.Endpoint,
+      {AshAuthentication.Supervisor, otp_app: :playground}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
