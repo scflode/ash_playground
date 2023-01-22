@@ -1,7 +1,8 @@
 defmodule Playground.Support.Ticket do
   # This turns this module into a resource
   use Ash.Resource,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshPaperTrail.Resource]
 
   postgres do
     table "tickets"

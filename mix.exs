@@ -57,7 +57,8 @@ defmodule Playground.MixProject do
       {:ash_postgres, "~> 1.3.2"},
       {:ash_authentication, "~> 3.7.3"},
       {:ash_authentication_phoenix, "~> 1.4"},
-      {:ash_admin, github: "ash-project/ash_admin", branch: "phoenix-1.7"}
+      {:ash_admin, github: "ash-project/ash_admin", branch: "phoenix-1.7"},
+      {:ash_paper_trail, github: "ash-project/ash_paper_trail"}
     ]
   end
 

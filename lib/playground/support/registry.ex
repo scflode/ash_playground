@@ -1,7 +1,8 @@
 defmodule Playground.Support.Registry do
   use Ash.Registry,
     extensions: [
-      Ash.Registry.ResourceValidations
+      Ash.Registry.ResourceValidations,
+      AshPaperTrail.Registry
     ]
 
   entries do
