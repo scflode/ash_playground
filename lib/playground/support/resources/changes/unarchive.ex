@@ -10,20 +10,11 @@ defmodule Playground.Support.Resources.Changes.Unarchive do
       id = Ash.Changeset.get_argument(changeset, :id)
 
       RawTicket
-      |> Ash.Query.filter(id == ^id)
-      |> Support.read_one()
-      |> case do
-        {:ok, nil} ->
-          {:error, :not_found}
+      |> Support.get!(id)
+      |> Ash.Changeset.for_update(:update, %{archived_at: nil})
+      |> Support.update!()
 
-        {:ok, found} ->
-          # unarchive
-          found
-          |> Ash.Changeset.for_update(:update, %{archived_at: nil})
-          |> Support.update!()
-
-          {:ok, Support.get!(changeset.resource, id)}
-      end
+      {:ok, Support.get!(changeset.resource, id)}
     end)
   end
 end
