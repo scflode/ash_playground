@@ -1,7 +1,8 @@
 defmodule Playground.Support.Ticket do
   # This turns this module into a resource
   use Ash.Resource,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshArchival.Resource]
 
   postgres do
     table "tickets"
@@ -29,6 +30,18 @@ defmodule Playground.Support.Ticket do
     update :close do
       accept []
       change set_attribute(:status, :closed)
+    end
+
+    create :unarchive do
+      manual? true
+
+      argument :id, :uuid do
+        allow_nil? false
+      end
+
+      accept [:id]
+
+      change Playground.Support.Resources.Changes.Unarchive
     end
   end
 
@@ -66,5 +79,6 @@ defmodule Playground.Support.Ticket do
     define_for Playground.Support
     define :open, args: [:subject]
     define_calculation :subject_and_status, args: [:subject, :status, {:optional, :separator}]
+    define :unarchive, args: [:id]
   end
 end

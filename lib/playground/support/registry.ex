@@ -6,6 +6,7 @@ defmodule Playground.Support.Registry do
 
   entries do
     entry Playground.Support.Ticket
+    entry Playground.Support.RawTicket
     entry Playground.Support.Representative
   end
 end
