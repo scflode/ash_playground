@@ -41,4 +41,3 @@ defmodule Playground.Repo.Migrations.AddAuthentication do
     execute("DROP EXTENSION IF EXISTS \"citext\"")
   end
 end
-
