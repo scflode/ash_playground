@@ -9,6 +9,10 @@ defmodule Playground.Support.Representative do
 
   actions do
     defaults [:create, :read, :update, :destroy]
+
+    read :filter_active do
+      prepare build(limit: 10)
+    end
   end
 
   attributes do
@@ -34,5 +38,10 @@ defmodule Playground.Support.Representative do
     count :closed_tickets, :tickets do
       filter expr(status == :closed)
     end
+  end
+
+  code_interface do
+    define_for Playground.Support
+    define :filter_active
   end
 end

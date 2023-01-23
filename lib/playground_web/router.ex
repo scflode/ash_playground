@@ -36,6 +36,19 @@ defmodule PlaygroundWeb.Router do
     ash_admin("/admin")
   end
 
+  scope "/tickets", PlaygroundWeb do
+    pipe_through(:browser)
+
+    live_session :default, on_mount: [] do
+      live("/", TicketLive.Index, :index)
+    end
+  end
+
+  scope "/representatives", PlaygroundWeb do
+    pipe_through(:browser)
+    live("/", RepresentativeLive.Index, :index)
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", PlaygroundWeb do
   #   pipe_through :api
