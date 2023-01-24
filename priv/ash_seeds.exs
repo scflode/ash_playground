@@ -6,15 +6,19 @@ representative = (
   |> Playground.Support.create!()
 )
 
-for i <- 0..5 do
+for i <- 1..50_000 do
   ticket =
     Playground.Support.Ticket
     |> Ash.Changeset.for_create(:open, %{subject: "Issue #{i}"})
     |> Playground.Support.create!()
+
+  if rem(i, 5) == 0 do
+    ticket
     |> Ash.Changeset.for_update(:assign, %{representative_id: representative.id})
     |> Playground.Support.update!()
+  end
 
-  if rem(i, 2) == 0 do
+  if rem(i, 4) == 0 do
     ticket
     |> Ash.Changeset.for_update(:close)
     |> Playground.Support.update!()

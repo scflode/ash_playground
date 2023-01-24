@@ -14,19 +14,18 @@ defmodule Playground.Support do
   end
 
   def all_open_tickets do
-    Ticket.filter_open!()
-    |> load!(:representative)
+    Ticket.filter_open!(load: :representative)
   end
 
   def all_closed_tickets do
-    Ticket.filter_closed!()
-    |> load!(:representative)
+    Ticket.filter_closed!(load: :representative)
+  end
+
+  def filter_tickets_by_status(offset, status \\ :all) do
+    Ticket.filter!(status, page: [offset: offset, count: true], load: :representative)
   end
 
   def all_active_representatives do
-    Representative.filter_active!()
-    |> load!(:total_tickets)
-    |> load!(:open_tickets)
-    |> load!(:percent_open)
+    Representative.filter_active!(load: [:total_tickets, :open_tickets, :percent_open])
   end
 end
