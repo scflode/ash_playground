@@ -21,15 +21,37 @@ defmodule PlaygroundWeb.TicketLive.Index do
       </:subtitle>
     </.header>
 
-    <.table id="open_tickets" rows={@open_tickets} row_click={&JS.navigate(~p"/tickets/#{&1}")}>
-      <:col :let={ticket} label="ID"><%= ticket.id %></:col>
+    <.table id="open_tickets" rows={@open_tickets}>
+      <:col :let={ticket} label="ID">
+        <.link navigate={~p"/tickets/#{ticket}"}>
+          <%= ticket.id %>
+        </.link>
+      </:col>
       <:col :let={ticket} label="Subject"><%= ticket.subject %></:col>
-      <:col :let={ticket} label="Representative"><%= ticket.representative.name %></:col>
+      <:col :let={ticket} label="Representative">
+        <.link
+          navigate={~p"/representatives/#{ticket.representative}"}
+          class="font-semibold hover:underline"
+        >
+          <%= ticket.representative.name %>
+        </.link>
+      </:col>
     </.table>
-    <.table id="closed_tickets" rows={@closed_tickets} row_click={&JS.navigate(~p"/tickets/#{&1}")}>
-      <:col :let={ticket} label="ID"><%= ticket.id %></:col>
+    <.table id="closed_tickets" rows={@closed_tickets}>
+      <:col :let={ticket} label="ID">
+        <.link navigate={~p"/tickets/#{ticket}"}>
+          <%= ticket.id %>
+        </.link>
+      </:col>
       <:col :let={ticket} label="Subject"><%= ticket.subject %></:col>
-      <:col :let={ticket} label="Representative"><%= ticket.representative.name %></:col>
+      <:col :let={ticket} label="Representative">
+        <.link
+          navigate={~p"/representatives/#{ticket.representative}"}
+          class="font-semibold hover:underline"
+        >
+          <%= ticket.representative.name %>
+        </.link>
+      </:col>
     </.table>
     """
   end
