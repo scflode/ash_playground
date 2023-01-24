@@ -5,7 +5,10 @@ defmodule PlaygroundWeb.TicketLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :tickets, list_tickets())}
+    {:ok,
+     socket
+     |> assign(:open_tickets, nil)
+     |> assign(:closed_tickets, nil)}
   end
 
   @impl true
@@ -13,9 +16,17 @@ defmodule PlaygroundWeb.TicketLive.Index do
     ~H"""
     <.header>
       Listing Tickets
+      <:subtitle>
+        All open and closed tickets with their representative
+      </:subtitle>
     </.header>
 
-    <.table id="tickets" rows={@tickets} row_click={&JS.navigate(~p"/tickets/#{&1}")}>
+    <.table id="open_tickets" rows={@open_tickets} row_click={&JS.navigate(~p"/tickets/#{&1}")}>
+      <:col :let={ticket} label="ID"><%= ticket.id %></:col>
+      <:col :let={ticket} label="Subject"><%= ticket.subject %></:col>
+      <:col :let={ticket} label="Representative"><%= ticket.representative.name %></:col>
+    </.table>
+    <.table id="closed_tickets" rows={@closed_tickets} row_click={&JS.navigate(~p"/tickets/#{&1}")}>
       <:col :let={ticket} label="ID"><%= ticket.id %></:col>
       <:col :let={ticket} label="Subject"><%= ticket.subject %></:col>
       <:col :let={ticket} label="Representative"><%= ticket.representative.name %></:col>
@@ -31,10 +42,12 @@ defmodule PlaygroundWeb.TicketLive.Index do
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Tickets")
-    |> assign(:ticket, nil)
+    |> assign_tickets()
   end
 
-  defp list_tickets do
-    Support.all_open_tickets()
+  defp assign_tickets(socket) do
+    socket
+    |> assign(:open_tickets, Support.all_open_tickets())
+    |> assign(:closed_tickets, Support.all_closed_tickets())
   end
 end

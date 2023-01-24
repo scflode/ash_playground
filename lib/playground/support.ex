@@ -18,6 +18,11 @@ defmodule Playground.Support do
     |> load!(:representative)
   end
 
+  def all_closed_tickets do
+    Ticket.filter_closed!()
+    |> load!(:representative)
+  end
+
   def all_active_representatives do
     Representative.filter_active!()
     |> load!(:total_tickets)
