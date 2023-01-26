@@ -64,6 +64,7 @@ defmodule Playground.Support.Ticket do
         description "The status to filter"
       end
 
+      prepare build(sort: :subject)
       pagination offset?: true, default_limit: 10, required?: true, countable: true
       filter expr(status == ^arg(:status) or :all == ^arg(:status))
     end
