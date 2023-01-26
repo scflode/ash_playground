@@ -17,8 +17,8 @@ defmodule PlaygroundWeb.AuthController do
   def failure(conn, _activity, reason) do
     conn
     |> put_status(401)
-    |> assign(:failure_reason, reason)
-    |> render("failure.html")
+    |> put_flash(:error, "Login failed: #{inspect(reason)}")
+    |> redirect(to: ~p"/")
   end
 
   @impl true
@@ -27,6 +27,7 @@ defmodule PlaygroundWeb.AuthController do
 
     conn
     |> clear_session()
+    |> put_flash(:info, "You have been logged out")
     |> redirect(to: return_to)
   end
 end

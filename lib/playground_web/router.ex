@@ -4,6 +4,8 @@ defmodule PlaygroundWeb.Router do
 
   import AshAdmin.Router
 
+  alias AshAuthentication.Phoenix.LiveSession
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -36,17 +38,15 @@ defmodule PlaygroundWeb.Router do
     ash_admin("/admin")
   end
 
-  scope "/tickets", PlaygroundWeb do
+  scope "/", PlaygroundWeb do
     pipe_through :browser
 
-    live_session :default, on_mount: [] do
-      live "/", TicketLive.Index, :index
+    live_session :authenticated,
+      on_mount: LiveSession,
+      session: {LiveSession, :generate_session, []} do
+      live "/tickets", TicketLive.Index, :index
+      live "/representatives", RepresentativeLive.Index, :index
     end
-  end
-
-  scope "/representatives", PlaygroundWeb do
-    pipe_through :browser
-    live "/", RepresentativeLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
