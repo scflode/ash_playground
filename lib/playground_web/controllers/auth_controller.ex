@@ -23,7 +23,7 @@ defmodule PlaygroundWeb.AuthController do
 
   @impl true
   def sign_out(conn, _params) do
-    return_to = get_session(conn, :return_to) || ~p"/login"
+    return_to = get_session(conn, :return_to) || ~p"/"
 
     conn
     |> clear_session()

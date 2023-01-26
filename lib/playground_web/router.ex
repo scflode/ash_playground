@@ -3,6 +3,7 @@ defmodule PlaygroundWeb.Router do
   use AshAuthentication.Phoenix.Router
 
   import AshAdmin.Router
+  import PlaygroundWeb.UserAuth
 
   alias AshAuthentication.Phoenix.LiveSession
 
@@ -39,10 +40,10 @@ defmodule PlaygroundWeb.Router do
   end
 
   scope "/", PlaygroundWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_user]
 
     live_session :authenticated,
-      on_mount: LiveSession,
+      on_mount: [LiveSession, {PlaygroundWeb.UserAuth, :ensure_authenticated}],
       session: {LiveSession, :generate_session, []} do
       live "/tickets", TicketLive.Index, :index
       live "/representatives", RepresentativeLive.Index, :index
