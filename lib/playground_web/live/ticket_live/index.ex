@@ -23,6 +23,7 @@ defmodule PlaygroundWeb.TicketLive.Index do
       <.input
         field={{f, :status}}
         type="select"
+        value={@status}
         options={[{"All", :all}, {"Open", :open}, {"Closed", :closed}]}
       />
     </.simple_form>
