@@ -22,7 +22,6 @@ defmodule PlaygroundWeb.UserAuth do
       conn
     else
       conn
-      |> IO.inspect()
       |> put_flash(:error, "You must log in to access this page.")
       |> put_session(:return_to, conn.request_path)
       |> redirect(to: ~p"/login")

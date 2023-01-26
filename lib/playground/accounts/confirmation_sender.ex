@@ -10,8 +10,10 @@ defmodule Playground.Accounts.ConfirmationSender do
     |> subject("Confirmation instructions")
     |> text_body("""
     Please confirm your account via the following link:
-    https://example.com/auth/user/confirm?#{URI.encode_query(confirm: token)}
+    http://localhost:4000/auth/user/confirm?#{URI.encode_query(confirm: token)}
     """)
     |> Playground.Mailer.deliver()
+
+    :ok
   end
 end

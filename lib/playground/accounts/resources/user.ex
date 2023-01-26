@@ -3,6 +3,11 @@ defmodule Playground.Accounts.User do
     data_layer: AshPostgres.DataLayer,
     extensions: [AshAuthentication]
 
+  postgres do
+    table "users"
+    repo Playground.Repo
+  end
+
   actions do
     read :read do
       primary? true
@@ -45,10 +50,5 @@ defmodule Playground.Accounts.User do
         Application.fetch_env(:playground, :token_signing_secret)
       end
     end
-  end
-
-  postgres do
-    table "users"
-    repo Playground.Repo
   end
 end
