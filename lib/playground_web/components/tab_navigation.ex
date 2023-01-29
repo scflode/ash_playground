@@ -33,6 +33,15 @@ defmodule PlaygroundWeb.Components.TabNavigation do
         </div>
       </div>
     </div>
+    <script>
+      window.addEventListener("js:nav-selected", ({detail}) => {
+        let select = document.getElementById(detail.selectElId)
+        let target = select.value
+        let desktop = document.getElementById(detail.navElId)
+        let link = desktop.querySelector(`a[href="${target}"]`)
+        if (link) link.click()
+      })
+    </script>
     """
   end
 
