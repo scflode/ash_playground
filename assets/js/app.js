@@ -39,3 +39,10 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+window.addEventListener("js:nav-selected", ({detail}) => {
+  let select = document.getElementById(detail.selectElId)
+  let target = select.value
+  let desktop = document.getElementById(detail.navElId)
+  let link = desktop.querySelector(`a[href="${target}"]`)
+  if (link) link.click()
+})
