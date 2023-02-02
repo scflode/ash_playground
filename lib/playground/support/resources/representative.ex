@@ -25,10 +25,9 @@ defmodule Playground.Support.Representative do
   end
 
   calculations do
-    # See https://github.com/ash-project/ash_postgres/issues/128 type cast should not be needed
     calculate :percent_open,
               :float,
-              expr(if(total_tickets > 0, type(open_tickets / total_tickets, :float), 100.0))
+              expr(if(total_tickets > 0, open_tickets / total_tickets, 100.0))
   end
 
   aggregates do
