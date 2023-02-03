@@ -11,6 +11,8 @@ defmodule Playground.Accounts.User do
   actions do
     read :read do
       primary? true
+
+      prepare build(load: [:confirmed?])
     end
   end
 
@@ -18,6 +20,10 @@ defmodule Playground.Accounts.User do
     uuid_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
     attribute :hashed_password, :string, allow_nil?: false, sensitive?: true
+  end
+
+  calculations do
+    calculate :confirmed?, :boolean, expr(not is_nil(confirmed_at))
   end
 
   identities do

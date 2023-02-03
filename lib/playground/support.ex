@@ -2,6 +2,7 @@ defmodule Playground.Support do
   use Ash.Api,
     extensions: [AshAdmin.Api]
 
+  alias Playground.Accounts
   alias Playground.Support.Representative
   alias Playground.Support.Ticket
 
@@ -21,8 +22,8 @@ defmodule Playground.Support do
     Ticket.filter_closed!(load: :representative)
   end
 
-  def filter_tickets_by_status(offset, status \\ :all) do
-    Ticket.filter!(status, page: [offset: offset, count: true], load: :representative)
+  def filter_tickets_by_status(offset, status, actor) do
+    Ticket.filter(status, page: [offset: offset, count: true], load: :representative, actor: actor)
   end
 
   def all_active_representatives do

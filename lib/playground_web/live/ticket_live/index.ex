@@ -92,13 +92,19 @@ defmodule PlaygroundWeb.TicketLive.Index do
         page -> 10 * (page - 1)
       end
 
-    tickets = Support.filter_tickets_by_status(new_offset, status)
+    case Support.filter_tickets_by_status(new_offset, status, socket.assigns.current_user) do
+      {:ok, tickets} ->
+        socket
+        |> assign(:tickets, tickets.results)
+        |> assign(:count, tickets.count)
+        |> assign(:offset, tickets.offset)
+        |> assign(:limit, tickets.limit)
 
-    socket
-    |> assign(:tickets, tickets.results)
-    |> assign(:count, tickets.count)
-    |> assign(:offset, tickets.offset)
-    |> assign(:limit, tickets.limit)
+      {:error, %Ash.Error.Forbidden{}} ->
+        socket
+        |> put_flash(:error, "Unauthorized access")
+        |> redirect(to: ~p"/")
+    end
   end
 
   defp assign_filters(socket, status) do

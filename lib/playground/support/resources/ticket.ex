@@ -1,11 +1,21 @@
 defmodule Playground.Support.Ticket do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshArchival.Resource]
+    extensions: [AshArchival.Resource],
+    authorizers: [Ash.Policy.Authorizer]
+
+  alias Playground.Accounts.Checks.UserConfirmed
 
   postgres do
     table "tickets"
     repo(Playground.Repo)
+  end
+
+  policies do
+    policy always() do
+      authorize_if UserConfirmed
+      authorize_if never()
+    end
   end
 
   actions do
