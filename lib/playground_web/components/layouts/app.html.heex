@@ -31,10 +31,17 @@
   </div>
   <PlaygroundWeb.Components.TabNavigation.underlined
     path_info={@current_path_info}
-    items={[
-      %{to: ~p"/tickets", label: "Tickets"},
-      %{to: ~p"/representatives", label: "Representatives"}
-    ]}
+    items={
+      %PlaygroundWeb.Components.TabNavigation.ItemList{
+        entries: [
+          %PlaygroundWeb.Components.TabNavigation.Item{to: ~p"/tickets", label: "Tickets"},
+          %PlaygroundWeb.Components.TabNavigation.Item{
+            to: ~p"/representatives",
+            label: "Representatives"
+          }
+        ]
+      }
+    }
   />
 </header>
 <main class="px-4 py-20 sm:px-6 lg:px-8">

@@ -1,11 +1,12 @@
 defmodule PlaygroundWeb.Components.TabNavigation do
   use Phoenix.Component
 
+  alias PlaygroundWeb.Components.TabNavigation.{Item, ItemList}
   alias Phoenix.LiveView.JS
 
-  attr :items, :list,
-    default: [%{to: "/", label: "My Label"}],
-    doc: "A list of maps in the form of [%{to: ~p\"/my_path\", label: \"My label\"}]"
+  attr :items, ItemList,
+    default: %ItemList{entries: [%Item{to: "/", label: "My Label"}]},
+    doc: "A `ItemList`"
 
   attr :path_info, URI, required: true, doc: "A URI struct for the current path info"
 
@@ -22,13 +23,23 @@ defmodule PlaygroundWeb.Components.TabNavigation do
           name="tabs"
           class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
         >
-          <.select_item :for={item <- @items} to={item.to} label={item.label} path_info={@path_info} />
+          <.select_item
+            :for={item <- @items.entries}
+            to={item.to}
+            label={item.label}
+            path_info={@path_info}
+          />
         </select>
       </div>
       <div class="hidden sm:block">
         <div class="border-b border-gray-200">
           <nav class="-mb-px flex space-x-8" aria-label="Tabs" id="tabs">
-            <.item :for={item <- @items} to={item.to} label={item.label} path_info={@path_info} />
+            <.item
+              :for={item <- @items.entries}
+              to={item.to}
+              label={item.label}
+              path_info={@path_info}
+            />
           </nav>
         </div>
       </div>
